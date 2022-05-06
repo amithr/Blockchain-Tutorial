@@ -11,6 +11,10 @@ app = FastAPI()
 
 origins = ["*"]
 
+app.state.node_address = "http://127.0.0.1:8000"
+app.state.node_list = set() # This is actually a set - ensures that only unique values are added
+app.state.blockchain = None
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,35 +24,37 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def update_node_blockchain():
-    update_url = app.state.node_address + '/update-blockchain'
-    json_chain = jsonable_encoder(app.state.blockchain.chain)
-    requests.post(update_url, json=json_chain)
-
-@app.post("/new-transaction-request")
-async def receive_new_transaction(transaction : Request):
-    transaction = await transaction.json()
-    new_block = app.state.blockchain.mine_block(transaction)
-    json_new_block = new_block.toJson()
-    app.state.blockchain.add_block_to_blockchain(new_block)
-    if is_consensual(json_new_block):
-        update_node_blockchain()
-
-    return JSONResponse(content=json_new_block)
-
-
 def is_consensual(json_new_block):
     consent_url = app.state.node_address + '/give-consent'
     response = requests.post(consent_url, json=json_new_block).json()
     if not response["valid"] == True:
         return False
     return True
+    
+
+@app.post("/new-transaction-request")
+async def receive_new_transaction(transaction : Request):
+    transaction = await transaction.json()
+    new_block = app.state.blockchain.mine_block(transaction)
+    json_new_block = jsonable_encoder(new_block)
+    print("New Transaction Request Block", json_new_block)
+    if is_consensual(json_new_block):
+        print("Is Consensual (Primary Node)")
+        app.state.blockchain.add_block_to_blockchain(new_block)
+
+    return JSONResponse(content=json_new_block)
+
+def update_node_list(host, port):
+    new_node_address = "http://" + host + ":" + str(port)
+    print(new_node_address)
+    app.state.node_list.add(new_node_address)
 
 # Immediately mine
 # Send message to network when finished (all /give-consent routes)
 # If consent received, add to local blockchain, otherwise remine
 @app.post("/give-consent")
 async def give_consent(new_block : Request):
+    update_node_list(new_block.client.host, new_block.client.port)
     # The new block has been deserialized
     new_block = await new_block.json()
     print("give_consent Blockchain:", app.state.blockchain.chain.__repr__())
@@ -67,7 +73,6 @@ async def give_consent(new_block : Request):
     # If valid, set last miner address
     json_message = jsonable_encoder({"valid":is_new_block_valid})
     return JSONResponse(content=json_message)
-
 
 @app.post("/update-blockchain")
 async def update_blockchain(blockchain : Request):
