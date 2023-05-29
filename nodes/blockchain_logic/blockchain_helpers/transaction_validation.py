@@ -1,4 +1,3 @@
-
 from fastecdsa import curve, ecdsa
 from fastecdsa.point import Point
 import json, hashlib
@@ -7,7 +6,7 @@ import json, hashlib
 def is_vote_valid(chain, transaction):
     transaction_data = json.loads(transaction["data"])
     voter_hash = transaction_data["voter_hash"]
-        # Check that this person didn't vote anywhere else in the blockchain
+    # Check that this person didn't vote anywhere else in the blockchain
     single_vote = True
     # First block will be the genesis block, anyways
     if len(chain) > 2:

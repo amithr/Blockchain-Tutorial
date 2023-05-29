@@ -1,5 +1,5 @@
 
-from blockchain_helpers.proof_of_work import try_next_proof_of_work_number
+from .proof_of_work import try_next_proof_of_work_number
 
 def is_new_block_valid(new_block, last_block):
     if last_block.chain_index ==  new_block.chain_index:

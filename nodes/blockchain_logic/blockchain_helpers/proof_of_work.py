@@ -14,7 +14,7 @@ def generate_next_proof_of_work_number(last_block):
 # proposed blocks from other nodes
 def try_next_proof_of_work_number(new_proof_number, last_proof_number):
     # Generate a UTF string with both proof numbers
-    new_proof_number_guess = f'{new_proof_number}{new_proof_number}'.encode()
+    new_proof_number_guess = f'{new_proof_number}{last_proof_number}'.encode()
     # Hash this
     guess_hash = hashlib.sha256(new_proof_number_guess).hexdigest()
     return guess_hash[:4] == "0000"

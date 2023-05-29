@@ -6,7 +6,7 @@ import json, requests, hashlib
 
 class Client:
     def __init__(self, node_address, private_key=None):
-        self.node_address = "http://127.0.0.1:8000"
+        self.node_address = node_address
         self.private_key = private_key or keys.gen_private_key(curve.P256)
         self.public_key = keys.get_public_key(self.private_key, curve.P256)
         self.public_hash = self.generate_public_hash()
@@ -28,7 +28,7 @@ class Client:
                 'voter_public_key_y': self.public_key.y,
                 'voter_hash': self.public_hash,
                 'vote': candidate
-            }
+        }
         
         # Convert dictionary to JSON to bytes for signing
         transaction = json.dumps(transaction_data)

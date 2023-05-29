@@ -1,3 +1,5 @@
 blockchain_helpers/__pycache__
 Client/__pycache__
 __pycache__
+.pytest_cache
+nodes/blockchain_logic/__pycache__

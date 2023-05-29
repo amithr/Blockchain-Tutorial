@@ -1,10 +1,7 @@
 from warnings import catch_warnings
-from numpy import block
-from Block import Block
-from fastecdsa import curve, ecdsa
-from fastecdsa.point import Point
-import hashlib, json, time
-from blockchain_helpers import proof_of_work, blockchain_validation, transaction_validation
+from .Block import Block
+import json
+from blockchain_logic.blockchain_helpers import proof_of_work, blockchain_validation, transaction_validation
 
 class Blockchain:
     def __init__(self, chain=[]):
