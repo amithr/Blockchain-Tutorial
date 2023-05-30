@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 from fastapi.encoders import jsonable_encoder
-from client.Client import Client
+from voting_client.Client import Client
 import os
 
 def test_generate_new_transaction():

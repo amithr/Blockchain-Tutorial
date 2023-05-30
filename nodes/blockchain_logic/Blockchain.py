@@ -1,4 +1,3 @@
-from warnings import catch_warnings
 from .Block import Block
 import json
 from blockchain_logic.blockchain_helpers import proof_of_work, blockchain_validation, transaction_validation

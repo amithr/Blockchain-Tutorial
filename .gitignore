@@ -3,3 +3,4 @@ Client/__pycache__
 __pycache__
 .pytest_cache
 nodes/blockchain_logic/__pycache__
+nodes/__pycache__

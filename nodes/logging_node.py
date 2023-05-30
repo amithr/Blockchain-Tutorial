@@ -20,8 +20,9 @@ async def startup_event():
     print("Logging node online")
 
 @app.post("/log")
-def log(message: Request):
-    return jsonable_encoder(app.state.blockchain.chain)
+async def log(message: Request):
+    print(await message.json())
+    return
 
 @app.post("/get_logs")
 def get_logs():
