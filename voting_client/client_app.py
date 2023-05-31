@@ -11,7 +11,7 @@ layout = [[sg.Text("Enter National ID Number:"), sg.Input(key='-NID-', do_not_cl
 
 window = sg.Window('Voting Program', layout)
 
-client = Client()
+client = Client("http://127.0.0.1:5001")
 
 while True:
     event, values = window.read()

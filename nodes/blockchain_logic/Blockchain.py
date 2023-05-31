@@ -7,7 +7,6 @@ class Blockchain:
         self.chain = chain
         # If new blockchain, construct first block on chain
         if len(self.chain) == 0:
-            print('hello')
             self.construct_genesis()
 
     def construct_genesis(self):

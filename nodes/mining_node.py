@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from node_helper import convert_json_to_blockchain
 from logger.Logger import Logger
 from logger import log_constants
-import requests
+import requests, uvicorn, sys
 
 app = FastAPI()
 

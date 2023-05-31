@@ -9,7 +9,6 @@ class Block:
         self.transaction = transaction
         self.previous_hash = previous_hash
         if not timestamp:
-            print("Timestamp generated.")
             self.timestamp = int(time.time())
         else:
             self.timestamp = timestamp
@@ -36,6 +35,9 @@ class Block:
         block_dict["timestamp"] = self.timestamp
 
         return json.dumps(block_dict)
+    
+    def __str__(self):
+        return ""
     
     def __repr__(self):
         return "{} - {} - {} - {} - {}".format(self.chain_index, self.proof_of_work_number, self.transaction, self.previous_hash, self.timestamp)

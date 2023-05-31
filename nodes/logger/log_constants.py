@@ -5,7 +5,7 @@ UPDATE_EMO = "\U0001F506"
 RECEIVED_EMO = "\U0001F4BC"
 ERROR_EMO = "\U0001F6A8"
 
-# Warning Types
+# Log Types
 WARNING = "warning"
 SUCCESS = "success"
 UPDATE = "update"
