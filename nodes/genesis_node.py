@@ -6,6 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from logger.Logger import Logger
 from logger import log_constants
 import uvicorn, requests
+from psutil import process_iter
+from signal import SIGTERM # or SIGKILL
 
 app = FastAPI()
 
@@ -41,3 +43,10 @@ def new_mining_node(port:int):
         logger.emit_log("Failed to update command node node list with new port", log_constants.ERROR)
     else:
         uvicorn.run("mining_node:app", port=port, log_level="info")
+
+@app.post("/kill_node")
+def kill_node(port:int):
+    for proc in process_iter():
+        for conns in proc.connections(kind='inet'):
+            if conns.laddr.port == port:
+                proc.send_signal(SIGTERM) 
