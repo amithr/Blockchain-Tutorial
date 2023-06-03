@@ -13,6 +13,8 @@ app = FastAPI()
 
 origins = ["*"]
 
+app.state.nodes = set()
+
 app.state.command_node = "http://127.0.0.1:8000"
 app.state.logging_node = "http://127.0.0.1:8001"
 logger = Logger(app.state.logging_node, "http://127.0.0.1:8005", "Genesis")
@@ -50,3 +52,7 @@ def kill_node(port:int):
         for conns in proc.connections(kind='inet'):
             if conns.laddr.port == port:
                 proc.send_signal(SIGTERM) 
+
+@app.post("/validate-google-log")
+def validate_google_login(token: Request):
+     return
