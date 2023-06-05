@@ -2,13 +2,14 @@ from fastapi import FastAPI, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from blockchain_logic.Block import Block
-from blockchain_logic.Blockchain import Blockchain
 from blockchain_logic.blockchain_helpers import blockchain_validation
 from fastapi.middleware.cors import CORSMiddleware
 from node_helper import convert_json_to_blockchain
 from logger.Logger import Logger
 from logger import log_constants
-import requests, uvicorn, sys
+import requests
+
+# https://github.com/permitio/fastapi_websocket_pubsub
 
 app = FastAPI()
 
@@ -18,6 +19,7 @@ app.state.node_list = set() # This is actually a set - ensures that only unique 
 app.state.blockchain = None
 app.state.command_node = "http://127.0.0.1:8000"
 app.state.logging_node = "http://127.0.0.1:8001"
+app.state.port = 0
 app.state.id=0
 app.state.address=""
 app.state.logger = None
@@ -136,3 +138,5 @@ def set_node_list(command_node_address):
 def update_command_blockchain(command_node_address):
     command_node_update_url = command_node_address + "/update-command-blockchain"
     requests.post(command_node_update_url, json=jsonable_encoder(app.state.blockchain.chain))
+
+# Add websocket for real-time status updating

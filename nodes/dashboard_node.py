@@ -18,6 +18,7 @@ app.state.nodes = set()
 app.state.command_node = "http://127.0.0.1:8000"
 app.state.logging_node = "http://127.0.0.1:8001"
 logger = Logger(app.state.logging_node, "http://127.0.0.1:8005", "Genesis")
+app.state.initial_mining_port = 5000
 
 app.add_middleware(
     CORSMiddleware,
@@ -32,27 +33,38 @@ async def startup_event():
     logger.emit_log("Genesis node online.", log_constants.SUCCESS)
 
 @app.post("/new-command-node")
-def new_command_node():
+def new_command_node(user_email:Request):
     uvicorn.run("command_node:app", port=8000, log_level="info")
+    return jsonable_encoder({'port':8000})
 
 @app.post("/new-mining_node")
-def new_mining_node(port:int):
+def new_mining_node(user_email:Request):
+    app.state.initial_mining_port += 1
+    port = app.state.initial_mining_port 
     node_address = "http://127.0.0.1:"+str(port)
-    command_node_update_address = app.state.command_node + '/update-command-node-list'
+    command_node_update_address = app.state.command_node + '/update-command-node-list '
     try:
                 requests.post(command_node_update_address, json=jsonable_encoder(node_address))
     except:
         logger.emit_log("Failed to update command node node list with new port", log_constants.ERROR)
     else:
         uvicorn.run("mining_node:app", port=port, log_level="info")
+        return jsonable_encoder({'port':port})
 
 @app.post("/kill_node")
 def kill_node(port:int):
     for proc in process_iter():
         for conns in proc.connections(kind='inet'):
             if conns.laddr.port == port:
-                proc.send_signal(SIGTERM) 
+                proc.send_signal(SIGTERM)    
+    return jsonable_encoder({'port':port})
 
+@app.post("/kill_network")
+def kill_blockchain_network():
+     return
+     
 @app.post("/validate-google-log")
 def validate_google_login(token: Request):
      return
+
+# Check health
