@@ -17,10 +17,10 @@ origins = ["*"]
 
 app.state.node_list = set() # This is actually a set - ensures that only unique values are added
 app.state.blockchain = None
-app.state.command_node = "http://127.0.0.1:8000"
-app.state.logging_node = "http://127.0.0.1:8001"
+app.state.command_node = ""
 app.state.port = 0
 app.state.id=0
+app.state.user_id=""
 app.state.address=""
 app.state.logger = None
 
@@ -33,16 +33,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.on_event("startup")
-def startup_event():
-    # Reach out to the command node
-    # Get node list
-    # Get current block chain
-    set_identity(app.state.command_node)
+@app.post("/initialize-mining-node")
+async def initialize_mining_node(data: Request):
+    data = await data.json()
+    app.state.command_node = data['command_node_address']
+    app.state.port = data['port']
+    app.state.id  = data['node_id']
+    app.state.user_id = data['user_id']
+    app.state.logger = Logger(app.state.user_id, app.state.port, app.state.id)
     set_blockchain(app.state.command_node)
     set_node_list(app.state.command_node)
-    app.state.logger = Logger(app.state.logging_node, app.state.address, app.state.id)
     app.state.logger.emit_log('Mining node online and initialized.', log_constants.SUCCESS)
+    return
 
 def is_consensual(json_new_block):
     for node_address in app.state.node_list:
@@ -117,12 +119,6 @@ async def update_blockchain(blockchain : Request):
     app.state.logger.emit_log("Node updated with latest blockchain.", log_constants.UPDATE)
     json_message = jsonable_encoder({"updated":True})
     return JSONResponse(content=json_message)
-
-def set_identity(command_node_address):
-    command_node_blockchain_url = command_node_address + "/initialize-identity"
-    node_identity = requests.post(command_node_blockchain_url).json()
-    app.state.address = node_identity['node_address']
-    app.state.id = node_identity['node_id']
 
 def set_blockchain(command_node_address):
     command_node_blockchain_url = command_node_address + "/initialize-node-blockchain"

@@ -2,12 +2,15 @@ from fastapi import FastAPI, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from logger.Logger import Logger
+from logger import log_constants
+from  fastapi_websocket_pubsub import PubSubEndpoint
 
 app = FastAPI()
+endpoint = PubSubEndpoint()
+endpoint.register_route(app, "/logging")
 
 origins = ["*"]
-
-app.state.logs = []
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,19 +20,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.on_event("startup")
-async def startup_event():
-    print("Logging node online")
-
-@app.post("/log")
-async def log(message: Request):
-    log_message = message.json()
-    app.state.logs.append(log_message)
-    print(await message.json())
+@app.post("/broadcast-message")
+async def broadcast_message(msg:Request):
+    msg = await msg.json()
+    await endpoint.publish(["amith"], data=[msg])
     return
-
-@app.post("/get_logs")
-def get_logs():
-    return jsonable_encoder(app.state.logs)
-
-# Use websockets to communicate with logging_node
