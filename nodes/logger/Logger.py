@@ -12,7 +12,7 @@ class Logger:
     def emit_log(self, msg, type):
         log = Log(self.user_id, self.port, self.node_id, msg, type)
         try:
-            requests.post(self.logger_address, json=jsonable_encoder(log.to_dict()))
+            requests.post(self.logger_address, json=jsonable_encoder(log.__str__()))
         except:
             pass
         print(log)

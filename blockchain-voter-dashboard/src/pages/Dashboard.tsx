@@ -1,9 +1,8 @@
-import React, {FC, useContext, useState, useEffect} from 'react'
-import ReactDOM from 'react-dom/client';
+import React, {FC, useContext, useState, useEffect, useLayoutEffect} from 'react'
 import { UserContext } from '../contexts/UserContext';
 import { Grid, Button, ButtonGroup, ListItem, List } from '@mui/material';
 import { networkAction } from '../utilities/API';
-import useWebSocket, { ReadyState } from 'react-use-websocket';
+import io from 'socket.io-client';
 
 interface DashboardProps {
     userId?:string;
@@ -12,24 +11,24 @@ interface DashboardProps {
 const Dashboard: FC<DashboardProps> = () => {
     const {userData, setUserData} = useContext(UserContext);
     const [commandNode, setCommandNode] = useState(8000);
+    const [messages, setMessages] = useState([]);
+    const [prevMessage, setPrevMessage] = useState("");
     const [nodes, setNodes] = useState([])
-    const [socketUrl, setSocketUrl] = useState('ws://localhost:9001/logging');
-    const [messageHistory, setMessageHistory] = useState([]);
-    const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
 
-    useEffect(() => {
-        if (lastMessage !== null) {
-          setMessageHistory((prev) => prev.concat(lastMessage));
-        }
-      }, []);
 
-      const connectionStatus = {
-        [ReadyState.CONNECTING]: 'Connecting',
-        [ReadyState.OPEN]: 'Open',
-        [ReadyState.CLOSING]: 'Closing',
-        [ReadyState.CLOSED]: 'Closed',
-        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-      }[readyState];
+    useLayoutEffect(() => {
+        // connect to WebSocket server
+        const ws = new WebSocket("ws://localhost:9001/logger")
+        ws.onmessage = (ev:any) => {
+            const message = JSON.parse(ev.data).lastMessage
+            setPrevMessage(prev => {
+                if (message !== prev) {
+                  setMessages(current => [...current, message]);
+                }
+                return message;
+              });
+          }
+      }, [prevMessage]);
 
     const handleGenerateNetwork = () => {
         networkAction('generate_network', {'user_id':userData.email}).then(function(success) {
@@ -92,13 +91,11 @@ const Dashboard: FC<DashboardProps> = () => {
                 </Grid>
                 <Grid item xs={4}>
                     <h2>Activity Dashboard</h2>
-                    <span>The WebSocket is currently {connectionStatus}</span>
-                    {lastMessage ? <span>Last message: {lastMessage.data}</span> : null}
-                    <ul>
-                        {messageHistory.map((message, idx) => (
-                        <span key={idx}>{message ? message.data : null}</span>
-                    ))}
-                </ul>
+                    <List>
+                        {messages.map((message, index) => (
+                            <ListItem key={index}>{message}</ListItem>
+                        ))}
+                    </List>
                 </Grid>
                 <Grid item xs={4}>
                     <h2>Node Statuses</h2>

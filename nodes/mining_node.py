@@ -40,13 +40,14 @@ async def initialize_mining_node(data: Request):
     app.state.port = data['port']
     app.state.id  = data['node_id']
     app.state.user_id = data['user_id']
+    get_latest_blockchain(app.state.command_node)
+    get_latest_node_list(app.state.command_node)
     app.state.logger = Logger(app.state.user_id, app.state.port, app.state.id)
-    set_blockchain(app.state.command_node)
-    set_node_list(app.state.command_node)
     app.state.logger.emit_log('Mining node online and initialized.', log_constants.SUCCESS)
     return
 
 def is_consensual(json_new_block):
+    print(app.state.node_list)
     for node_address in app.state.node_list:
         consent_url = node_address + '/give-consent'
         try:
@@ -69,6 +70,8 @@ def is_consensual(json_new_block):
 async def receive_new_transaction(transaction : Request):
     app.state.logger.emit_log("New transaction request received.", log_constants.RECEIVED)
     transaction = await transaction.json()
+    get_latest_blockchain(app.state.command_node)
+    get_latest_node_list(app.state.command_node)
     new_block = app.state.blockchain.mine_block(transaction)
     json_new_block = jsonable_encoder(new_block)
     if is_consensual(json_new_block):
@@ -120,19 +123,21 @@ async def update_blockchain(blockchain : Request):
     json_message = jsonable_encoder({"updated":True})
     return JSONResponse(content=json_message)
 
-def set_blockchain(command_node_address):
+def get_latest_blockchain(command_node_address):
     command_node_blockchain_url = command_node_address + "/initialize-node-blockchain"
     most_recent_blockchain = requests.post(command_node_blockchain_url).json()
     app.state.blockchain = convert_json_to_blockchain(most_recent_blockchain)
 
-def set_node_list(command_node_address):
+def get_latest_node_list(command_node_address):
     command_node_node_list_url = command_node_address + "/initialize-node-list"
     most_recent_node_list = requests.post(command_node_node_list_url)
     if most_recent_node_list:
-        app.state.node_list = most_recent_node_list.json()
+        # Remove address of current node from list
+        current_address = 'http://127.0.0.1:'+str(app.state.port)
+        node_list = most_recent_node_list.json()
+        node_list.remove(current_address)
+        app.state.node_list = node_list
 
 def update_command_blockchain(command_node_address):
     command_node_update_url = command_node_address + "/update-command-blockchain"
     requests.post(command_node_update_url, json=jsonable_encoder(app.state.blockchain.chain))
-
-# Add websocket for real-time status updating

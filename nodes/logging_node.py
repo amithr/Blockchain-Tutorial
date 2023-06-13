@@ -1,14 +1,13 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, WebSocket
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from logger.Logger import Logger
 from logger import log_constants
-from  fastapi_websocket_pubsub import PubSubEndpoint
+import asyncio, websockets
 
 app = FastAPI()
-endpoint = PubSubEndpoint()
-endpoint.register_route(app, "/logging")
+app.state.last_message = ""
 
 origins = ["*"]
 
@@ -20,8 +19,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.websocket("/logger")
+async def websocket_endpoint(websocket: WebSocket):
+    print('Accepting client connection...')
+    await websocket.accept()
+    while True:
+        try:
+            await asyncio.sleep(1)
+            await websocket.send_json(jsonable_encoder({'lastMessage': app.state.last_message}))
+        except:
+             print('Waiting for connection')
+             break
+
+
 @app.post("/broadcast-message")
 async def broadcast_message(msg:Request):
+    # Need to wait for one second to let any other requests be sent
+    await asyncio.sleep(1)
     msg = await msg.json()
-    await endpoint.publish(["amith"], data=[msg])
-    return
+    app.state.last_message = msg
