@@ -2,7 +2,7 @@ import React, {FC, useContext, useState, useEffect, useLayoutEffect} from 'react
 import { UserContext } from '../contexts/UserContext';
 import { Grid, Button, ButtonGroup, ListItem, List } from '@mui/material';
 import { networkAction } from '../utilities/API';
-import io from 'socket.io-client';
+import Block from '../components/Block';
 
 interface DashboardProps {
     userId?:string;
@@ -36,7 +36,6 @@ const Dashboard: FC<DashboardProps> = () => {
         const ws = new WebSocket("ws://localhost:9001/blockchain");
         ws.onmessage = (ev: any) => {
           const blockchainArray = JSON.parse(ev.data).blockchain;
-          console.log("Blockchain Array" + blockchainArray)
           setBlockchain(blockchainArray);
         };
       }, []);
@@ -111,7 +110,7 @@ const Dashboard: FC<DashboardProps> = () => {
                 <Grid item xs={4}>
                     <h2>Blockchain</h2>
                     {blockchain.map((block, index) => (
-                            <ListItem key={index}>{block.timestamp}</ListItem>
+                            <Block key={index} block={block} transaction={block.transaction} />
                         ))}
                 </Grid>
             </Grid>
