@@ -60,5 +60,7 @@ async def update_command_node_list(node_address:Request):
 async def update_command_blockchain(blockchain:Request):
     blockchain = await blockchain.json()
     app.state.blockchain = convert_json_to_blockchain(blockchain)
+    # Send purely the array that contains the blockchain data to the logging node
+    requests.post("http://127.0.0.1:9001/broadcast-blockchain", json=jsonable_encoder(app.state.blockchain.chain))
     app.state.logger.emit_log('Command blockchain updated.', log_constants.UPDATE)
     print("Node Update", app.state.blockchain.__repr__())
