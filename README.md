@@ -23,6 +23,11 @@ There are 3 main directions:
 		- *mining_node.py* [Responsible for creating new blocks and updating blockchain]
 - **/voting_client** [Desktop-based frontend]
 
+
+
+## What happens when someone votes?
+![Voting Lifecycle](https://github.com/amithr/Blockchain-Tutorial/blob/main/Voting_Lifecycle.png)
+
 ## How does it work?
 
 ![Network Overview](https://github.com/amithr/Blockchain-Tutorial/blob/main/Blockchain_Topology.png)
