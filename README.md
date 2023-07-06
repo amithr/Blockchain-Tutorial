@@ -7,6 +7,11 @@ This is an application that is meant to allow education to demonstrate the funct
 - React Voting Functionality
 - Reducers and Contexts to simplify React Dashboard
 
+## Getting Started
+To start the backend:
+`sudo uvicorn dashboard_node:app --port=9000`
+To start the frontend:
+`npm run dev`  
 
 ## Directory Structure
 There are 3 main directions:

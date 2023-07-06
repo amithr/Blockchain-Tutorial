@@ -1,8 +1,6 @@
 import React, {FC, useContext, useState, useEffect, useLayoutEffect} from 'react'
 
 
-
-
 interface Block {
     chain_index:number;
     proof_of_work_number:number;
