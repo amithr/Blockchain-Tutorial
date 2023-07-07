@@ -1,4 +1,8 @@
-import React, {FC, useContext, useState, useEffect, useReducer} from 'react'
+import React, {FC, useContext, useState, useEffect, useReducer} from 'react';
+import NetworkStatusFeed from '../components/NetworkStatusFeed';
+import BlockchainStatusFeed from '../components/BlockchainStatusFeed';
+import { nodeReducer } from '../hooks/nodeReducer';
+import { useWebSocket } from '../hooks/useWebsocket';
 import { UserContext } from '../contexts/UserContext';
 import { Grid, Button, ButtonGroup, ListItem, List } from '@mui/material';
 import { networkAction } from '../utilities/API';
@@ -8,46 +12,17 @@ interface DashboardProps {
     userId?:string;
 }
 
-const useWebSocket = (url, onMessage) => {
-    useEffect(() => {
-      const ws = new WebSocket(url);
-      ws.onmessage = onMessage;
-      return () => {
-        ws.close();
-      };
-    }, []);
-  };
-
-  const initialState = {
+const initialState = {
     commandNode: 8000,
     messages: [],
     blockchain: [],
     prevMessage: '',
     nodes: [],
-  };
-  
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'SET_COMMAND_NODE':
-        return { ...state, commandNode: action.payload };
-        case 'ADD_MESSAGE':
-        return { ...state, messages: [...state.messages, action.payload] };
-        case 'SET_BLOCKCHAIN':
-        return { ...state, blockchain: action.payload };
-        case 'SET_PREV_MESSAGE':
-        return { ...state, prevMessage: action.payload };
-        case 'ADD_NODE':
-        return { ...state, nodes: [...state.nodes, action.payload] };
-        case 'REMOVE_NODE':
-        return { ...state, nodes: state.nodes.filter((node) => node !== action.payload) };
-        default:
-        return state;
-    }
 };
 
 const Dashboard: FC<DashboardProps> = () => {
     const {userData, setUserData} = useContext(UserContext);
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(nodeReducer, initialState);
     const {commandNode, messages, blockchain, prevMessage, nodes } = state;
 
     useWebSocket('ws://localhost:9001/logger', (ev) => {
@@ -137,17 +112,11 @@ const Dashboard: FC<DashboardProps> = () => {
                 </Grid>
                 <Grid item xs={4}>
                     <h2>Activity Dashboard</h2>
-                    <List>
-                        {messages.map((message, index) => (
-                            <ListItem key={index}>{message}</ListItem>
-                        ))}
-                    </List>
+                    <NetworkStatusFeed messages={messages} />
                 </Grid>
                 <Grid item xs={4}>
                     <h2>Blockchain</h2>
-                    {blockchain.map((block, index) => (
-                            <Block key={index} block={block} transaction={block.transaction} />
-                        ))}
+                    <BlockchainStatusFeed blockchain={blockchain} />
                 </Grid>
             </Grid>
         </>
