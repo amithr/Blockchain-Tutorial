@@ -6,7 +6,6 @@ import { useWebSocket } from '../hooks/useWebsocket';
 import { UserContext } from '../contexts/UserContext';
 import { Grid, Button, ButtonGroup, ListItem, List } from '@mui/material';
 import { networkAction } from '../utilities/API';
-import Block from '../components/Block';
 
 interface DashboardProps {
     userId?:string;
@@ -58,31 +57,25 @@ const Dashboard: FC<DashboardProps> = () => {
         })
           .then((success) => {
             const newMiningNodePort = success.data.port;
-            console.log('New mining node added');
             console.log(newMiningNodePort);
             dispatch({ type: 'ADD_NODE', payload: newMiningNodePort });
           })
           .catch((error) => {
-            console.log(error);
           });
       };
 
     const handleKillNode = (port:number) => {
         networkAction('kill_mining_node', {'port':port}).then(function(success) {
             nodes.filter((node) => node !== port);
-            console.log('Node successfully killed.')
         }).catch(function(error) {
-            console.log(error)
         })
     }
 
     const handleKillNetwork = () => {
         networkAction('kill_mining_node', { port: commandNode })
           .then((success) => {
-            console.log('Node successfully killed.');
           })
           .catch((error) => {
-            console.log(error);
           });
     
         nodes.forEach((node) => {

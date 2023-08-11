@@ -9,6 +9,7 @@ import uvicorn, requests, time
 from psutil import process_iter
 from signal import SIGTERM # or SIGKILL
 import multiprocessing
+import db
 
 
 app = FastAPI()
@@ -33,6 +34,8 @@ logger = Logger("","http://127.0.0.1:9000", 0)
 
 @app.on_event("startup")
 async def startup_event():
+    # Create db
+    db.create_database()
     # Create logging node
     p = multiprocessing.Process(target=start_logging_node)
     p.start()
@@ -126,6 +129,6 @@ def start_logging_node():
 
 def start_command_node(port):
     uvicorn.run("command_node:app", port=port, log_level="info")
-
+    
 def start_mining_node(port):
     uvicorn.run("mining_node:app", port=port, log_level="info")

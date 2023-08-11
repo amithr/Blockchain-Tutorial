@@ -3,15 +3,26 @@
 This is an application that is meant to allow education to demonstrate the functionality of a blockchain voting system in real-time. It is still in active development. It uses Python with numerous FastAPI-based nodes on the backend and React/Typescript in the frontend
 
 ## Todos
-- Tests (Frontend and Backend)
+- Functional Tests (Frontend and Backend)
 - React Voting Functionality
 - Reducers and Contexts to simplify React Dashboard
 
 ## Getting Started
+To set up the frontend:
+1. `cd blockchain-voter-dashboard`
+2. `npm install`
+
+To set up the backend
+`pip install -r requirements.txt`
+
 To start the backend:
 `sudo uvicorn dashboard_node:app --port=9000`
+
 To start the frontend:
-`npm run dev`  
+`npm run dev` 
+
+To test voting functionality:
+`pytest test_node_api.py`
 
 ## Directory Structure
 There are 3 main directions:
@@ -36,3 +47,5 @@ There are 3 main directions:
 ## How does it work?
 
 ![Network Overview](https://github.com/amithr/Blockchain-Tutorial/blob/main/Blockchain_Topology.png)
+
+## User Guide
