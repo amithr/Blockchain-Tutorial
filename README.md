@@ -49,6 +49,7 @@ There are 3 main directions:
 7. The original mining node sends the new blockchain to the command node, which then updates its own copy of the current blockchain.
    
 The diagram below illustrates this process :point_down:
+
 ![Voting Lifecycle](https://github.com/amithr/Blockchain-Tutorial/blob/main/Voting_Lifecycle.png)
 
 ## How does it work?
@@ -76,6 +77,7 @@ To understand how the application works, let's take a look at the roles played b
 - When status update received, pushes update via websockets to user's web browser
   
 The diagram below illustrates this process :point_down:
+
 ![Network Overview](https://github.com/amithr/Blockchain-Tutorial/blob/main/Blockchain_Topology.png)
 
 ## User Guide
