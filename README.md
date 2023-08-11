@@ -76,8 +76,13 @@ To understand how the application works, let's take a look at the roles played b
 - Receives status updates from entire network
 - When status update received, pushes update via websockets to user's web browser
   
-  The diagram below illustrates this process :point_down:
+  The diagram below illustrates the above nodes and their roles :point_down:
 
 ![Network Overview](https://github.com/amithr/Blockchain-Tutorial/blob/main/Blockchain_Topology.png)
 
 ## User Guide
+1. Access the dashboard's login page at http://localhost:5173
+2. Click the "Sign in with Google" button and follow the login prompts. Afterwards you will be directed to the dashboard.
+3. Click the "Generate Network" button and wait until you see the "Command node online." ,message in the Activity Dashboard section.
+4. Click the "Add Mining Node" button twice to create two new mining nodes. You should see two messages in the Activity dashboard that read "Mining node online and initialized."
+5. Simulate a vote by running `pytest test_node_api.py` from the main directory. You should see a series of steps in your activity dashbaord that correspond to the mining and approval process as well as the first block of the blockchain in the "Blockchain" section.
