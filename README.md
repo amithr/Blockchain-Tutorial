@@ -1,11 +1,11 @@
 # Welcome to the Blockchain Playground!
 
-This is an application that is meant to allow educators to demonstrate the functionality of a blockchain voting system in real-time. It is still in active development. It uses Python with numerous FastAPI-based nodes on the backend and React/Typescript on the frontend.
+This is an application that is meant to allow educators to demonstrate the functionality of a blockchain voting system in real-time. Users can create their own custom blockchain network and submit votes to it, which are stored on a blockchain. The application is still in active development. It uses Python with numerous FastAPI-based nodes on the backend and React/Typescript on the frontend.
 
 ## Todos
-- Functional Tests (Frontend and Backend)
-- React Voting Functionality
-- Reducers and Contexts to simplify React Dashboard
+- [ ] Functional Tests (Frontend and Backend)
+- [ ] React Voting Functionality
+- [ ] Reducers and Contexts to simplify React Dashboard
 
 ## Getting Started
 To set up the frontend:
@@ -16,13 +16,22 @@ To set up the backend:
 `pip install -r requirements.txt`
 
 To start the backend:
-`sudo uvicorn dashboard_node:app --port=9000`
+1. `cd nodes`
+2. `sudo uvicorn dashboard_node:app --port=9000`
 
 To start the frontend:
-`npm run dev` 
+1. `cd blockchain-voter-dashboard`
+2. `npm run dev`
 
 To test backend voting functionality:
 `pytest test_node_api.py`
+
+## User Guide :smirk_cat:
+1. Access the dashboard's login page at http://localhost:5173
+2. Click the "Sign in with Google" button and follow the login prompts. Afterwards you will be directed to the dashboard.
+3. Click the "Generate Network" button and wait until you see the "Command node online." ,message in the Activity Dashboard section.
+4. Click the "Add Mining Node" button twice to create two new mining nodes. You should see two messages in the Activity dashboard that read "Mining node online and initialized."
+5. Simulate a vote by running `pytest test_node_api.py` from the main directory. You should see a series of steps in your activity dashbaord that correspond to the mining and approval process as well as the first block of the blockchain in the "Blockchain" section.
 
 ## Directory Structure :file_folder:
 There are 3 main directions:
@@ -38,19 +47,6 @@ There are 3 main directions:
 		- *command_node.py* [Controls and updates network with new info]
 		- *mining_node.py* [Responsible for creating new blocks and updating blockchain]
 - **/voting_client** [Desktop-based frontend]
-
-## What happens when someone votes? :raising_hand:
-1. The vote is sent from the frontend dashboard to one of the mining nodes - the specific mining node is selected at random.
-2. The mining node "mines" or creates a block that stores the vote.
-3. This mining node send this newly created block to all the other mining nodes in the network
-4. If authentic, this block is added to the blockchains on each of the mining nodes.
-5. Each of the mining nodes sends a confirmation of authenticity to the original mining node that received the vote.
-6. The newly created block is added to the blockchain on the original mining node.
-7. The original mining node sends the new blockchain to the command node, which then updates its own copy of the current blockchain.
-   
-The diagram below illustrates this process :point_down:
-
-![Voting Lifecycle](https://github.com/amithr/Blockchain-Tutorial/blob/main/Voting_Lifecycle.png)
 
 ## How does it work? :sparkles:
 ### Summary
@@ -86,9 +82,16 @@ The diagram below illustrates the above nodes and their roles :point_down:
 
 ![Network Overview](https://github.com/amithr/Blockchain-Tutorial/blob/main/Blockchain_Topology.png)
 
-## User Guide :smirk_cat:
-1. Access the dashboard's login page at http://localhost:5173
-2. Click the "Sign in with Google" button and follow the login prompts. Afterwards you will be directed to the dashboard.
-3. Click the "Generate Network" button and wait until you see the "Command node online." ,message in the Activity Dashboard section.
-4. Click the "Add Mining Node" button twice to create two new mining nodes. You should see two messages in the Activity dashboard that read "Mining node online and initialized."
-5. Simulate a vote by running `pytest test_node_api.py` from the main directory. You should see a series of steps in your activity dashbaord that correspond to the mining and approval process as well as the first block of the blockchain in the "Blockchain" section.
+## What happens when someone votes? :raising_hand:
+1. The vote is sent from the frontend dashboard to one of the mining nodes - the specific mining node is selected at random.
+2. The mining node "mines" or creates a block that stores the vote.
+3. This mining node send this newly created block to all the other mining nodes in the network
+4. If authentic, this block is added to the blockchains on each of the mining nodes.
+5. Each of the mining nodes sends a confirmation of authenticity to the original mining node that received the vote.
+6. The newly created block is added to the blockchain on the original mining node.
+7. The original mining node sends the new blockchain to the command node, which then updates its own copy of the current blockchain.
+   
+The diagram below illustrates this process :point_down:
+
+![Voting Lifecycle](https://github.com/amithr/Blockchain-Tutorial/blob/main/Voting_Lifecycle.png)
+
