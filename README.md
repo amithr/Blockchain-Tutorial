@@ -51,7 +51,8 @@ There are 3 main directions:
 ## How does it work? :sparkles:
 ### Summary
 - The application starts with a dashboard node, a logging node, and a React frontend.
-- Each user must then create a command node and mining nodes to have functional blockchain network. This can be done from the dashboard in the frontend.
+- Each node is an API server that sends and received requests.
+- Each user must create a command node and mining nodes to have functional blockchain network. This can be done from the dashboard in the frontend.
 - Once a network is established, votes can be submitted to any one of the mining nodes and a blockchain will begin to be built. Votes can be be submitted via the dashboard.
 ### Components
 To better understand how the application works, let's take a look at the roles played by all the active components in the application.
