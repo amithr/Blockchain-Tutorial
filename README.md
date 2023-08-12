@@ -24,7 +24,7 @@ To start the frontend:
 To test backend voting functionality:
 `pytest test_node_api.py`
 
-## Directory Structure
+## Directory Structure :file_folder:
 There are 3 main directions:
 - **/blockchain-voter-dashboard** [React frontend]
 - **/nodes** [All blockchain and network-related code]
@@ -39,7 +39,7 @@ There are 3 main directions:
 		- *mining_node.py* [Responsible for creating new blocks and updating blockchain]
 - **/voting_client** [Desktop-based frontend]
 
-## What happens when someone votes?
+## What happens when someone votes? :raising_hand:
 1. The vote is sent from the frontend dashboard to one of the mining nodes - the specific mining node is selected at random.
 2. The mining node "mines" or creates a block that stores the vote.
 3. This mining node send this newly created block to all the other mining nodes in the network
@@ -54,15 +54,16 @@ The diagram below illustrates this process :point_down:
 
 ## How does it work? :sparkles:
 ### Summary
-- The application starts with a dashboard node, a logging node, and a frontend.
-- Each user must then create a command node and mining nodes to have functional blockchain network. This can be done from the dashboard on the frontend.
-- Once a network is established, votes can be submitted to any one of the mining nodes and a blockchain will begin to be built.
+- The application starts with a dashboard node, a logging node, and a React frontend.
+- Each user must then create a command node and mining nodes to have functional blockchain network. This can be done from the dashboard in the frontend.
+- Once a network is established, votes can be submitted to any one of the mining nodes and a blockchain will begin to be built. Votes can be be submitted via the dashboard.
 ### Components
-To understand how the application works, let's take a look at the roles played by all the active components in application.
+To better understand how the application works, let's take a look at the roles played by all the active components in the application.
 #### Frontend
 - Allows user to send request to dashboard node to initiate the creation of new networks (command nodes)
 - Allows user to send request to dashboard node to add mining nodes to the network
 - Receives and displays real-time telemetry regarding status of network nodes and the blockchain 
+- Allows user to submit votes to blockchain network. (Will allow user to send links to voters in future.)
 #### Dashboard Node
 - Intermediary between the frontend and the numerous command and mining nodes
 - Creates single logging node on startup that receives all log messages
@@ -81,11 +82,11 @@ To understand how the application works, let's take a look at the roles played b
 - Receives status updates from entire network
 - When status update received, pushes update via websockets to user's web browser
   
-  The diagram below illustrates the above nodes and their roles :point_down:
+The diagram below illustrates the above nodes and their roles :point_down:
 
 ![Network Overview](https://github.com/amithr/Blockchain-Tutorial/blob/main/Blockchain_Topology.png)
 
-## User Guide
+## User Guide :smirk_cat:
 1. Access the dashboard's login page at http://localhost:5173
 2. Click the "Sign in with Google" button and follow the login prompts. Afterwards you will be directed to the dashboard.
 3. Click the "Generate Network" button and wait until you see the "Command node online." ,message in the Activity Dashboard section.
