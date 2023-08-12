@@ -55,14 +55,14 @@ The diagram below illustrates this process :point_down:
 ## How does it work?
 To understand how the application works, let's take a look at the roles played by all the active components in application.
 ### Frontend
-- Allows user to initiate the creation of new networks (command nodes)
-- Allows user to add mining nodes to the network
+- Allows user to send request to dashboard node to initiate the creation of new networks (command nodes)
+- Allows user to send request to dashboard node to add mining nodes to the network
 - Receives and displays real-time telemetry regarding status of network nodes and the blockchain 
 ### Dashboard Node
 - Intermediary between the frontend and the numerous command and mining nodes
 - Creates single logging node on startup that receives all log messages
-- Used to initiate creation of command node for each user
-- Used to initiate creation of mining nodes in individual users' networks
+- Initiates creation of command node for each user (on request from frontend)
+- Initiate creation of mining nodes in individual users' networks (on request from frontend)
 ### Command Node
 - Linked to individual user
 - Stores current blockchain
