@@ -1,5 +1,4 @@
 # Welcome to the Blockchain Playground!
-![Static Badge](https://img.shields.io/badge/Size%3A135%20MB)
 
 This is an application that is meant to allow educators to demonstrate the functionality of a blockchain voting system in real-time. Users can create their own custom blockchain network and submit votes to it, which are stored on a blockchain. The application is still in active development. It uses Python with numerous FastAPI-based nodes on the backend and React/Typescript on the frontend.
 
