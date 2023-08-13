@@ -2,6 +2,14 @@
 
 This is an application that is meant to allow educators to demonstrate the functionality of a blockchain voting system in real-time. Users can create their own custom blockchain network and submit votes to it, which are stored on a blockchain. The application is still in active development. It uses Python with numerous FastAPI-based nodes on the backend and React/Typescript on the frontend.
 
+# Table of Contents
+1. [Getting Started](#getting-started)
+2. [User Guide](#user-guide-smirk_cat)
+3. [How does it work?](#how-does-it-work-sparkles)
+4. [What happens when someone votes?](#what-happens-when-someone-votes-raising_hand)
+5. [Manually Starting Nodes](#manually-starting-nodes-wrench)
+6. [Killing Nodes](#killing-nodes-hocho)
+
 ## Todos
 - [ ] Functional Tests (Frontend and Backend)
 - [ ] React Voting Functionality
@@ -50,10 +58,10 @@ There are 3 main directions:
 
 ## How does it work? :sparkles:
 ### Summary
-- The application starts with a dashboard node, a logging node, and a React frontend.
+- The application will be launched with a dashboard node, a logging node, and a React frontend.
 - Each node is an API server that sends and received requests.
 - Each user must create a command node and mining nodes to have functional blockchain network. This can be done from the dashboard in the frontend.
-- Once a network is established, votes can be submitted to any one of the mining nodes and a blockchain will begin to be built. Votes can be be submitted via the dashboard.
+- Once a network is established, votes can be submitted to any one of the user's mining nodes and a blockchain will begin to be built. Votes can be be submitted via the dashboard.
 ### Components
 To better understand how the application works, let's take a look at the roles played by all the active components in the application.
 #### Frontend
@@ -96,5 +104,5 @@ The diagram below illustrates this process :point_down:
 
 ![Voting Lifecycle](https://github.com/amithr/Blockchain-Tutorial/blob/main/Voting_Lifecycle.png)
 
-## Manually Starting Nodes
-## Killing Nodes
+## Manually Starting Nodes :wrench: 
+## Killing Nodes :hocho:
