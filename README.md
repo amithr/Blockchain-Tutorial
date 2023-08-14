@@ -111,6 +111,14 @@ The diagram below illustrates this process :point_down:
 
 ## Troubleshooting :mag_right:
 Troubleshooting in the Blockchain-Tutorial is relatively easy because of detailed logging.
+
 In order to detect the source of an error on the backend or frontend, simply open the respective terminal window/tab.
 
+Different events, including events will be displayed in the following format:
+[<IP-address>][<Node-number>][<Message>]
+
+5-digit IP addresses following API request messages are known as ephemeral IP addresses,
+as a new IP address is created for each API interaction. As a result, these are difficult to attribute to specific nodes and are therefore not useful for troubleshooting.
+
+See a snapshot from a backend terminal window below for context :point_down:
 ![Troubleshooting](https://github.com/amithr/Blockchain-Tutorial/blob/main/Troubleshooting.png)
