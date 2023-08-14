@@ -145,4 +145,4 @@ as a new port number is created for each API interaction. As a result, these are
 
 See a snapshot from a backend terminal window below for context :point_down:
 
-![Troubleshooting](https://github.com/amithr/Blockchain-Tutorial/blob/main/Troubleshooting.png)
+![Troubleshooting](https://github.com/amithr/Blockchain-Tutorial/blob/main/Troubleshooting_2.png)
