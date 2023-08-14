@@ -6,9 +6,11 @@ This is an application that is meant to allow educators to demonstrate the funct
 1. [Getting Started](#getting-started)
 2. [User Guide](#user-guide-smirk_cat)
 3. [How does it work?](#how-does-it-work-sparkles)
-4. [What happens when someone votes?](#what-happens-when-someone-votes-raising_hand)
-5. [Manually Starting Nodes](#manually-starting-nodes-wrench)
-6. [Killing Nodes](#killing-nodes-hocho)
+4. [Components (Nodes & Frontend)](#components)
+5. [What happens when someone votes?](#what-happens-when-someone-votes-raising_hand)
+6. [Manually Starting Nodes](#manually-starting-nodes-wrench)
+7. [Killing Nodes](#killing-nodes-hocho)
+8. [Troubleshooting](#troubleshooting-mag_right)
 
 ## Todos
 - [ ] Functional Tests (Frontend and Backend)
@@ -24,15 +26,18 @@ To set up the backend:
 `pip install -r requirements.txt`
 
 To start the backend:
-1. `cd nodes`
-2. `sudo uvicorn dashboard_node:app --port=9000`
+1. Open up a new terminal window
+2. `cd nodes`
+3. `sudo uvicorn dashboard_node:app --port=9000`
 
 To start the frontend:
-1. `cd blockchain-voter-dashboard`
-2. `npm run dev`
+1. Open up a new terminal window (separate from the backend)
+2. `cd blockchain-voter-dashboard`
+3. `npm run dev`
 
 To test backend voting functionality:
-`pytest test_node_api.py`
+1. Open up a new terminal window (separate from the backend and frontend)
+2. `pytest test_node_api.py`
 
 ## User Guide :smirk_cat:
 1. Access the dashboard's login page at http://localhost:5173
@@ -104,5 +109,8 @@ The diagram below illustrates this process :point_down:
 
 ![Voting Lifecycle](https://github.com/amithr/Blockchain-Tutorial/blob/main/Voting_Lifecycle.png)
 
-## Manually Starting Nodes :wrench: 
-## Killing Nodes :hocho:
+## Troubleshooting :mag_right:
+Troubleshooting in the Blockchain-Tutorial is relatively easy because of detailed logging.
+In order to detect the source of an error on the backend or frontend, simply open the respective terminal window/tab.
+
+![Troubleshooting](https://github.com/amithr/Blockchain-Tutorial/blob/main/Troubleshooting.png)
