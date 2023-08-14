@@ -125,6 +125,7 @@ for more details.
 ## API
 
 ## Troubleshooting :mag_right:
+### Application Events
 Troubleshooting in the Blockchain-Tutorial is relatively easy because of detailed logging.
 
 In order to detect the source of an error on the backend or frontend, simply open the respective terminal window/tab.
@@ -143,4 +144,5 @@ These IP addresses with 5-digit port numbers are known as "ephemeral",
 as a new port number is created for each API interaction. As a result, these are difficult to attribute to specific nodes and are therefore not useful for troubleshooting.
 
 See a snapshot from a backend terminal window below for context :point_down:
+
 ![Troubleshooting](https://github.com/amithr/Blockchain-Tutorial/blob/main/Troubleshooting.png)
