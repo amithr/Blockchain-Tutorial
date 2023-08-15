@@ -115,14 +115,27 @@ The code that provides each node its functionality is based on a Python web fram
 called FastAPI. However, a piece of software called Uvicorn is the web server that actually executes and allows requests to be made to your FastAPI code from the internet.
 
 Therefore to start and stop our nodes, we will execute Uvicorn-based commands in the terminal.
-### Manually Starting Nodes
-Nodes can only be manually started via the dashboard node's API. See the "API" section
-for more details.
-### Manually Killing Nodes
-Nodes can only be manually started via the dashboard node's API. See the "API" section
-for more details.
 
-## API
+Nodes can only be manually stopped and started via the dashboard node's API. See the "API" section for more details.
+
+## API :zap:
+To start and stop individual nodes and networks, the main point of access will be the
+API routes of the dashboard node.
+### Starting a Network
+"/new-network" (user_id)
+`curl -X POST -H "Content-Type: application/json" -d '{"user_id": <user-google-login-id>}' -L https://<machine-ip-address>/new-network`
+Response: 
+{'port':command_node_port, 'id': command_node_id}
+### Starting Mining Nodes
+"/new-mining-node" (command_node_port, user_id)
+`curl -X POST -H "Content-Type: application/json" -d '{"command_node_port": <command_node_port>, "user_id": <user-google-login-id>}' -L https://<machine-ip-address>/new-mining-node`
+Response:
+{'port':port}
+### Killing Nodes
+"/kill-node" (port)
+`curl -X POST -H "Content-Type: application/json" -d '{"command_node_port": <command_node_port>, "user_id": <user-google-login-id>}' -L https://<machine-ip-address>/kill-node`
+"/kill-node" (port)
+{'port':port}
 
 ## Troubleshooting :mag_right:
 ### Application Events :high_brightness:
