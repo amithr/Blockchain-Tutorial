@@ -8,9 +8,8 @@ This is an application that is meant to allow educators to demonstrate the funct
 3. [How does it work?](#how-does-it-work-sparkles)
 4. [Components (Nodes & Frontend)](#components)
 5. [What happens when someone votes?](#what-happens-when-someone-votes-raising_hand)
-6. [Nodes](#nodes)
-7. [API](#api)
-8. [Troubleshooting](#troubleshooting-mag_right)
+6. [API](#api-zap)
+7. [Troubleshooting](#troubleshooting-mag_right)
 
 ## Todos
 - [ ] Functional Tests (Frontend and Backend)
@@ -65,7 +64,10 @@ There are 3 main directions:
 ### Summary
 - The application will be launched with a dashboard node, a logging node, and a React frontend.
 - Each node is a purpose-specific API server that sends and receives requests.
+- The code that provides each node its functionality is based on a Python web framework
+called FastAPI. However, a piece of software called Uvicorn is the web server that actually executes and allows requests to be made to your FastAPI code from the internet.
 - All nodes are stored on a single machine and will have the same IP address, however, each node has a unique port number assigned to it.
+- Nodes can only be manually stopped and started via the dashboard node's API.
 - Each user must create a command node and mining nodes to have functional blockchain network. This can be done from the dashboard in the frontend.
 - Once a network is established, votes can be submitted to any one of the user's mining nodes and a blockchain will begin to be built. Votes can be be submitted via the dashboard.
 ### Components
@@ -110,14 +112,6 @@ The diagram below illustrates this process :point_down:
 
 ![Voting Lifecycle](https://github.com/amithr/Blockchain-Tutorial/blob/main/Voting_Lifecycle.png)
 
-## Nodes
-The code that provides each node its functionality is based on a Python web framework
-called FastAPI. However, a piece of software called Uvicorn is the web server that actually executes and allows requests to be made to your FastAPI code from the internet.
-
-Therefore to start and stop our nodes, we will execute Uvicorn-based commands in the terminal.
-
-Nodes can only be manually stopped and started via the dashboard node's API. See the "API" section for more details.
-
 ## API :zap:
 To start and stop individual nodes and networks, the main point of access will be the
 API routes of the dashboard node.
@@ -127,6 +121,7 @@ API routes of the dashboard node.
 `curl -X POST -H "Content-Type: application/json" -d '{"user_id": <user-google-login-id>}' -L https://<machine-ip-address>/new-network`
 
 **user-google-login-id** - User's login id provided by Google API
+
 **machine-ip-address** - the IP address of the machine on which your application is running; if requests are executed locally, this may simply be 127.0.0.1
 
 Response: 
