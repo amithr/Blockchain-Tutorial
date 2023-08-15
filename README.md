@@ -123,19 +123,40 @@ To start and stop individual nodes and networks, the main point of access will b
 API routes of the dashboard node.
 ### Starting a Network
 "/new-network" (user_id)
+
 `curl -X POST -H "Content-Type: application/json" -d '{"user_id": <user-google-login-id>}' -L https://<machine-ip-address>/new-network`
+
+**user-google-login-id** - User's login id provided by Google API
+**machine-ip-address** - the IP address of the machine on which your application is running; if requests are executed locally, this may simply be 127.0.0.1
+
 Response: 
 {'port':command_node_port, 'id': command_node_id}
+
+'port' - port number of new command node
+'id' - id number of new command node
 ### Starting Mining Nodes
 "/new-mining-node" (command_node_port, user_id)
-`curl -X POST -H "Content-Type: application/json" -d '{"command_node_port": <command_node_port>, "user_id": <user-google-login-id>}' -L https://<machine-ip-address>/new-mining-node`
+
+`curl -X POST -H "Content-Type: application/json" -d '{"command_node_port": <command-node-port>, "user_id": <user-google-login-id>}' -L https://<machine-ip-address>/new-mining-node`
+
+**command-node-port** - the port of the command node for the user's network; obtained as an API response when network was created
+
 Response:
 {'port':port}
+
+'port' - port of new mining node
+
 ### Killing Nodes
 "/kill-node" (port)
-`curl -X POST -H "Content-Type: application/json" -d '{"command_node_port": <command_node_port>, "user_id": <user-google-login-id>}' -L https://<machine-ip-address>/kill-node`
-"/kill-node" (port)
+
+`curl -X POST -H "Content-Type: application/json" -d '{"port": <port>, "user_id": <user-google-login-id>}' -L https://<machine-ip-address>/kill-node`
+
+**port** - port number of node to kill
+
+Response:
 {'port':port}
+
+'port' - port number of node killed
 
 ## Troubleshooting :mag_right:
 ### Application Events :high_brightness:
